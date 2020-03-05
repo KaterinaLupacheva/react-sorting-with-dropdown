@@ -28,6 +28,12 @@ const bands = [
 function App() {
   return (
     <div className="App">
+      <select>
+        <option value="albums">Albums</option>
+        <option value="members">Members</option>
+        <option value="formed">Formed in</option>
+      </select>
+
       {bands.map(band => (
         <div key={band.id} style={{ margin: '30px' }}>
           <div>{`Band: ${band.name}`}</div>
