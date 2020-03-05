@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 const bands = [
@@ -27,23 +27,26 @@ const bands = [
 
 function App() {
   const [data, setData] = useState([]);
-  // const [sortType, setSortType] = useState('albums');
+  const [sortType, setSortType] = useState('albums');
 
-  const sortArray = type => {
-    const types = {
-      albums: 'albums',
-      members: 'members',
-      formed: 'formed_in',
+  useEffect(() => {
+    const sortArray = type => {
+      const types = {
+        albums: 'albums',
+        members: 'members',
+        formed: 'formed_in',
+      };
+      const sortProperty = types[type];
+      const sorted = [...bands].sort((a, b) => b[sortProperty] - a[sortProperty]);
+      setData(sorted);
     };
-    const sortProperty = types[type];
-    const sorted = [...bands].sort((a, b) => b[sortProperty] - a[sortProperty]);
-    console.log(sorted);
-    setData(sorted);
-  };
+
+    sortArray(sortType);
+  }, [sortType]); 
 
   return (
     <div className="App">
-      <select onChange={(e) => sortArray(e.target.value)}>
+      <select onChange={(e) => setSortType(e.target.value)}> 
         <option value="albums">Albums</option>
         <option value="members">Members</option>
         <option value="formed">Formed in</option>
