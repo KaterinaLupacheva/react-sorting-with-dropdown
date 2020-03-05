@@ -27,17 +27,29 @@ const bands = [
 
 function App() {
   const [data, setData] = useState([]);
-  const [sortType, setSortType] = useState('albums');
+  // const [sortType, setSortType] = useState('albums');
+
+  const sortArray = type => {
+    const types = {
+      albums: 'albums',
+      members: 'members',
+      formed: 'formed_in',
+    };
+    const sortProperty = types[type];
+    const sorted = [...bands].sort((a, b) => b[sortProperty] - a[sortProperty]);
+    console.log(sorted);
+    setData(sorted);
+  };
 
   return (
     <div className="App">
-      <select>
+      <select onChange={(e) => sortArray(e.target.value)}>
         <option value="albums">Albums</option>
         <option value="members">Members</option>
         <option value="formed">Formed in</option>
       </select>
 
-      {bands.map(band => (
+      {data.map(band => (
         <div key={band.id} style={{ margin: '30px' }}>
           <div>{`Band: ${band.name}`}</div>
           <div>{`Albums: ${band.albums}`}</div>
