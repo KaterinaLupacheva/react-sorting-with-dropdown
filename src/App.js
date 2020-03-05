@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 const bands = [
@@ -26,6 +26,9 @@ const bands = [
 ];
 
 function App() {
+  const [data, setData] = useState([]);
+  const [sortType, setSortType] = useState('albums');
+
   return (
     <div className="App">
       <select>
