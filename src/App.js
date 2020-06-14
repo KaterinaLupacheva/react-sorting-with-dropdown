@@ -8,6 +8,10 @@ const bands = [
     albums: 9,
     members: 6,
     formed_in: 1996,
+    location: {
+      city: 'Berlin',
+      town: 'Cologne',
+    },
   },
   {
     id: 2,
@@ -15,6 +19,10 @@ const bands = [
     albums: 10,
     members: 4,
     formed_in: 1981,
+    location: {
+      city: 'Austin',
+      town: 'San',
+    },
   },
   {
     id: 3,
@@ -22,6 +30,10 @@ const bands = [
     albums: 3,
     members: 3,
     formed_in: 1987,
+    location: {
+      city: 'Seattle',
+      town: 'Aberdin',
+    },
   },
 ];
 
@@ -35,21 +47,29 @@ function App() {
         albums: 'albums',
         members: 'members',
         formed: 'formed_in',
+        location: 'location',
       };
       const sortProperty = types[type];
-      const sorted = [...bands].sort((a, b) => b[sortProperty] - a[sortProperty]);
+      const sorted = [...bands].sort((a, b) => {
+        if (sortProperty === 'location') {
+          return a.location.city.localeCompare(b.location.city);
+        } else {
+          return b[sortProperty] - a[sortProperty];
+        }
+      });
       setData(sorted);
     };
 
     sortArray(sortType);
-  }, [sortType]); 
+  }, [sortType]);
 
   return (
     <div className="App">
-      <select onChange={(e) => setSortType(e.target.value)}> 
+      <select onChange={e => setSortType(e.target.value)}>
         <option value="albums">Albums</option>
         <option value="members">Members</option>
         <option value="formed">Formed in</option>
+        <option value="location">Location</option>
       </select>
 
       {data.map(band => (
@@ -58,6 +78,8 @@ function App() {
           <div>{`Albums: ${band.albums}`}</div>
           <div>{`Members: ${band.members}`}</div>
           <div>{`Year of founding: ${band.formed_in}`}</div>
+          <div>{`Location - city: ${band.location.city}`}</div>
+          <div>{`Location - town: ${band.location.town}`}</div>
         </div>
       ))}
     </div>
